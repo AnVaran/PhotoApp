@@ -15,10 +15,8 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
     
     lazy var segmentedController: UISegmentedControl = {
         let control = UISegmentedControl(items: items)
-        control.backgroundColor = .red
-        control.selectedSegmentIndex = 0
-        control.layer.cornerRadius = 25
-        control.layer.borderWidth = 1
+        control.backgroundColor = .gray
+        control.selectedSegmentIndex = 0 
         control.layer.masksToBounds = true
         
         control.frame = CGRect(x: view.center.x - (view.frame.size.width - 20)/2, y: view.frame.size.height - 100, width: view.frame.size.width - 20, height: 50)

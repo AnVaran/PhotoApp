@@ -59,7 +59,7 @@ class FindingSimilarImages {
         return images
     }
     
-    static func featureprintObservationForImage(image: UIImage) -> VNFeaturePrintObservation? {
+    private static func featureprintObservationForImage(image: UIImage) -> VNFeaturePrintObservation? {
         let requestHandler = VNImageRequestHandler(cgImage: image.cgImage!, options: [:])
         let request = VNGenerateImageFeaturePrintRequest()
         do {
