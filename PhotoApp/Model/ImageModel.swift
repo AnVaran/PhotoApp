@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct ModelImage: Identifiable {
+struct ModelImage: Identifiable, Equatable {
     public var id: Int = 0
     public var main: Bool = false
     public var imageName: String
-    public var distance : Float = 0
+    public var distance : Float = 16
 }

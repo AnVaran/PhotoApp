@@ -9,6 +9,7 @@ import UIKit
 
 class PhotoViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    var inputImages = [ModelImage]()
     var images = [ModelImage]()
     let items = ["All photos", "Favourites"]
     var selectedItem = 0
@@ -29,7 +30,7 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
         collectionView.register(LeftMainViewCell.self, forCellWithReuseIdentifier: "cell")
         
         for i in 1...60 {
-            images.append(ModelImage(imageName: "\(i)"))
+            inputImages.append(ModelImage(imageName: "\(i)"))
         }
         
         segmentedController.addTarget(self, action: #selector(changeColor(_:)), for: .valueChanged)
@@ -54,19 +55,30 @@ class PhotoViewController: UICollectionViewController, UICollectionViewDelegateF
         }
     }
 
-    func processImages()
+    private func processImages()
     {
-        images = FindingSimilarImages.similarImages(inputImages: images)
+        let findImages = FindingSimilarImages()
+        findImages.similarImages(inputImages: inputImages) { [weak self] (images) in
+            
+            DispatchQueue.main.async {
+                self?.images = images
+                print("Load")
+                self?.collectionView.reloadData()
+                print("reload")
+            }
+        }
     }
-
-    
+ 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! PhotoCell
-        cell.photo.image = UIImage(named: images[indexPath.item].imageName)
+        DispatchQueue.main.async {
+            cell.photo.image = UIImage(named: self.images[indexPath.item].imageName)
+        }
+        
         return cell
     }
     
